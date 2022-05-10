@@ -4,6 +4,7 @@ import cavity from "../../../assets/images/cavity.png";
 import whitening from "../../../assets/images/whitening.png";
 import treatment from "../../../assets/images/treatment.png";
 import Service from "./Service";
+import Button from "../Accessiories/Button";
 
 const Services = () => {
     const services = [
@@ -53,7 +54,7 @@ const Services = () => {
                         alt="treatment img"
                     />
                     <div className="pl-6">
-                        <h1 className="text-5xl font-bold">
+                        <h1 className="text-3xl lg:text-5xl font-bold">
                             Exceptional Dental Care, on Your Terms!
                         </h1>
                         <p className="py-6">
@@ -66,9 +67,7 @@ const Services = () => {
                             English. Many desktop publishing packages and web
                             page
                         </p>
-                        <button className="btn btn-secondary text-white uppercase font-bold bg-gradient-to-r from-secondary to-primary">
-                            Get Started
-                        </button>
+                        <Button btnName="Get Started" />
                     </div>
                 </div>
             </div>

@@ -1,5 +1,6 @@
 import React from "react";
 import heroImage from "../../../assets/images/chair.png";
+import Button from "../Accessiories/Button";
 
 const Banner = () => {
     return (
@@ -19,9 +20,7 @@ const Banner = () => {
                         typesetting industry. Lorem Ipsum has been the
                         industry's standard dummy text ever since the
                     </p>
-                    <button className="btn btn-secondary text-white uppercase font-bold bg-gradient-to-r from-secondary to-primary">
-                        Get Started
-                    </button>
+                    <Button btnName="Get Started" />
                 </div>
             </div>
         </div>

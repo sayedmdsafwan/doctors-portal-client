@@ -4,7 +4,7 @@ import cavity from "../../../assets/images/cavity.png";
 import whitening from "../../../assets/images/whitening.png";
 import treatment from "../../../assets/images/treatment.png";
 import Service from "./Service";
-import Button from "../Accessiories/Button";
+import PrimaryButton from "../Shared/PrimaryButton";
 
 const Services = () => {
     const services = [
@@ -67,7 +67,7 @@ const Services = () => {
                             English. Many desktop publishing packages and web
                             page
                         </p>
-                        <Button btnName="Get Started" />
+                        <PrimaryButton>Get Started</PrimaryButton>
                     </div>
                 </div>
             </div>

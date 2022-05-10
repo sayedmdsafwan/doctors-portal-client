@@ -36,10 +36,10 @@ const Testimonials = () => {
                 <div>
                     <div>
                         <h3 className=" mb-3 text-xl uppercase text-primary font-semibold">
-                            Our Services
+                            Testimonial
                         </h3>
                         <h2 className="text-3xl mb-6 text-accent">
-                            Services We Provide
+                            What Our Patients Says
                         </h2>
                     </div>
                 </div>

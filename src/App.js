@@ -5,18 +5,18 @@ import { Route, Routes } from "react-router-dom";
 import Home from "./components/Pages/Home/Home";
 import About from "./components/Pages/About/About";
 import Login from "./components/Pages/Login/Login";
-import Footer from "./components/Pages/Shared/Footer";
+import Appointment from "./components/Pages/Appointment/Appointment";
 
 function App() {
     return (
-        <div>
+        <div className="max-w-7xl mx-auto">
             <Navbar />
             <Routes>
                 <Route path="/" element={<Home />}></Route>
                 <Route path="/login" element={<Login />}></Route>
+                <Route path="/appointment" element={<Appointment />}></Route>
                 <Route path="/about" element={<About />}></Route>
             </Routes>
-            <Footer />
         </div>
     );
 }

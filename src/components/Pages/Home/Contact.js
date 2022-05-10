@@ -6,6 +6,10 @@ const Contact = () => {
     return (
         <div
             style={{
+                width: "100vw",
+                position: "relative",
+                marginLeft: "-50vw",
+                left: "50%",
                 background: `url(${appointment})`,
             }}
             className="bg-primary px-10 py-14 "

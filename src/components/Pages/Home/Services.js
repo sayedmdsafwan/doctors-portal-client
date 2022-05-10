@@ -46,7 +46,7 @@ const Services = () => {
                     <Service key={service._id} service={service} />
                 ))}
             </div>
-            <div className="hero min-h-screen">
+            <div className="hero min-h-screen mt-8">
                 <div className="hero-content flex-col lg:flex-row">
                     <img
                         src={treatment}

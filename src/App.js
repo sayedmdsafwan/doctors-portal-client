@@ -9,7 +9,7 @@ import Appointment from "./components/Pages/Appointment/Appointment";
 
 function App() {
     return (
-        <div className="max-w-7xl mx-auto">
+        <div className="max-w-6xl mx-auto">
             <Navbar />
             <Routes>
                 <Route path="/" element={<Home />}></Route>

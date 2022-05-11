@@ -2,7 +2,7 @@ import React from "react";
 
 const Testimonial = ({ review }) => {
     return (
-        <div className="card lg:max-w-lg bg-base-100 shadow-xl">
+        <div className="card lg:max-w-lg bg-base-100 hover:shadow-xl shadow-lg">
             <div className="card-body">
                 <p>{review.review}</p>
                 <div className="flex items-center mt-4">

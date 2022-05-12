@@ -14,7 +14,9 @@ const SignUp = () => {
         useSignInWithGoogle(auth);
     const [updateProfile, updating, updateError] = useUpdateProfile(auth);
     const [createUserWithEmailAndPassword, user, loading, error] =
-        useCreateUserWithEmailAndPassword(auth);
+        useCreateUserWithEmailAndPassword(auth, {
+            sendEmailVerification: true,
+        });
 
     const {
         register,
@@ -158,7 +160,7 @@ const SignUp = () => {
                     <p>
                         <small>
                             Already have an account?{" "}
-                            <Link className="text-primary" to="/login">
+                            <Link className="text-blue-600" to="/login">
                                 Please login
                             </Link>
                         </small>

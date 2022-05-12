@@ -1,5 +1,6 @@
 import React, { useEffect } from "react";
 import {
+    useSendPasswordResetEmail,
     useSignInWithEmailAndPassword,
     useSignInWithGoogle,
 } from "react-firebase-hooks/auth";
@@ -13,6 +14,8 @@ const Login = () => {
         useSignInWithGoogle(auth);
     const [signInWithEmailAndPassword, user, loading, error] =
         useSignInWithEmailAndPassword(auth);
+    const [sendPasswordResetEmail, sending, resetError] =
+        useSendPasswordResetEmail(auth);
 
     const navigate = useNavigate();
     const location = useLocation();
@@ -22,6 +25,7 @@ const Login = () => {
     const {
         register,
         handleSubmit,
+        getValues,
         formState: { errors },
         reset,
     } = useForm();
@@ -29,6 +33,16 @@ const Login = () => {
     const onSubmit = (data) => {
         signInWithEmailAndPassword(data.email, data.password);
         reset();
+    };
+
+    const resetYourPassword = async () => {
+        const email = getValues("email");
+        if (email) {
+            await sendPasswordResetEmail(email);
+            alert("Sent email");
+        } else {
+            alert("Please enter your email address");
+        }
     };
 
     useEffect(() => {
@@ -47,7 +61,7 @@ const Login = () => {
         );
     }
 
-    if (loading || gLoading) {
+    if (loading || gLoading || sending) {
         return <Loading />;
     }
 
@@ -110,6 +124,12 @@ const Login = () => {
                                     },
                                 })}
                             />
+                            <small
+                                onClick={resetYourPassword}
+                                className="mt-2 cursor-pointer text-blue-600"
+                            >
+                                Forgot Password?
+                            </small>
                             <label className="label">
                                 {errors.password?.type === "required" && (
                                     <span className="label-text-alt text-red-400">
@@ -133,7 +153,7 @@ const Login = () => {
 
                     <small>
                         New to doctors portal?{" "}
-                        <Link to="/signup" className="text-secondary">
+                        <Link to="/signup" className="text-blue-600">
                             Create New Account
                         </Link>
                     </small>
@@ -143,7 +163,7 @@ const Login = () => {
                         onClick={() => signInWithGoogle()}
                         className="btn btn-outline"
                     >
-                        Login With Google
+                        Continue With Google
                     </button>
                 </div>
             </div>

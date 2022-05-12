@@ -10,59 +10,60 @@ import auth from "../../../firebase.init";
 import Loading from "../Shared/Loading";
 
 const SignUp = () => {
-    const [signInWithGoogle, userGoogle, loadingGoogle, errorGoogle] =
+    const [signInWithGoogle, gUser, gLoading, gError] =
         useSignInWithGoogle(auth);
+    const [updateProfile, updating, updateError] = useUpdateProfile(auth);
     const [createUserWithEmailAndPassword, user, loading, error] =
         useCreateUserWithEmailAndPassword(auth);
-    const [updateProfile, updating, errorUpdate] = useUpdateProfile(auth);
-
-    const navigate = useNavigate();
 
     const {
         register,
-        handleSubmit,
         formState: { errors },
+        handleSubmit,
         reset,
     } = useForm();
 
-    const onSubmit = async (data) => {
-        console.log(data);
-        await createUserWithEmailAndPassword(data.email, data.password);
-        await updateProfile({ displayName: data.name });
-        reset();
-        navigate("/appointment");
-    };
+    const navigate = useNavigate();
 
-    if (user || userGoogle) {
-        console.log(user || userGoogle);
+    let signInError;
+
+    if (loading || gLoading || updating) {
+        return <Loading></Loading>;
     }
 
-    let signUpError;
-    if (error || errorGoogle || errorUpdate) {
-        signUpError = (
-            <p className="mb-4 text-red-400">
-                {error?.message || errorGoogle?.message || errorUpdate?.message}
+    if (error || gError || updateError) {
+        signInError = (
+            <p className="text-red-400">
+                <small>
+                    {error?.message || gError?.message || updateError?.message}
+                </small>
             </p>
         );
     }
 
-    if (loading || loadingGoogle || updating) {
-        return <Loading />;
+    if (user || gUser) {
+        console.log(user || gUser);
+        navigate("/appointment");
     }
 
+    const onSubmit = async (data) => {
+        await createUserWithEmailAndPassword(data.email, data.password);
+        await updateProfile({ displayName: data.name });
+        console.log("update done");
+        reset();
+    };
     return (
-        <div className="flex justify-center items-center h-screen">
+        <div className="flex h-screen justify-center items-center">
             <div className="card w-96 bg-base-100 shadow-xl">
                 <div className="card-body">
-                    <h2 className="card-title">SignUp</h2>
-
+                    <h2 className="text-center text-2xl font-bold">Sign Up</h2>
                     <form onSubmit={handleSubmit(onSubmit)}>
                         <div className="form-control w-full max-w-xs">
                             <label className="label">
                                 <span className="label-text">Name</span>
                             </label>
                             <input
-                                type="name"
+                                type="text"
                                 placeholder="Your Name"
                                 className="input input-bordered w-full max-w-xs"
                                 {...register("name", {
@@ -74,12 +75,13 @@ const SignUp = () => {
                             />
                             <label className="label">
                                 {errors.name?.type === "required" && (
-                                    <span className="label-text-alt text-red-500">
+                                    <span className="label-text-alt text-red-400">
                                         {errors.name.message}
                                     </span>
                                 )}
                             </label>
                         </div>
+
                         <div className="form-control w-full max-w-xs">
                             <label className="label">
                                 <span className="label-text">Email</span>
@@ -101,12 +103,12 @@ const SignUp = () => {
                             />
                             <label className="label">
                                 {errors.email?.type === "required" && (
-                                    <span className="label-text-alt text-red-500">
+                                    <span className="label-text-alt text-red-400">
                                         {errors.email.message}
                                     </span>
                                 )}
                                 {errors.email?.type === "pattern" && (
-                                    <span className="label-text-alt text-red-500">
+                                    <span className="label-text-alt text-red-400">
                                         {errors.email.message}
                                     </span>
                                 )}
@@ -145,27 +147,28 @@ const SignUp = () => {
                                 )}
                             </label>
                         </div>
-                        {signUpError}
+
+                        {signInError}
                         <input
                             className="btn w-full max-w-xs text-white"
                             type="submit"
                             value="Sign Up"
                         />
                     </form>
-
-                    <small>
-                        New to doctors portal?{" "}
-                        <Link to="/signup" className="text-secondary">
-                            Create New Account
-                        </Link>
-                    </small>
-
+                    <p>
+                        <small>
+                            Already have an account?{" "}
+                            <Link className="text-primary" to="/login">
+                                Please login
+                            </Link>
+                        </small>
+                    </p>
                     <div className="divider">OR</div>
                     <button
                         onClick={() => signInWithGoogle()}
                         className="btn btn-outline"
                     >
-                        Sign Up With Google
+                        Continue with Google
                     </button>
                 </div>
             </div>

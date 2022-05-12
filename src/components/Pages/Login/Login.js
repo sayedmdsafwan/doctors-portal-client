@@ -1,20 +1,23 @@
-import React from "react";
+import React, { useEffect } from "react";
 import {
     useSignInWithEmailAndPassword,
     useSignInWithGoogle,
 } from "react-firebase-hooks/auth";
 import { useForm } from "react-hook-form";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import auth from "../../../firebase.init";
 import Loading from "../Shared/Loading";
 
 const Login = () => {
-    const [signInWithGoogle, userGoogle, loadingGoogle, errorGoogle] =
+    const [signInWithGoogle, gUser, gLoading, gError] =
         useSignInWithGoogle(auth);
     const [signInWithEmailAndPassword, user, loading, error] =
         useSignInWithEmailAndPassword(auth);
 
     const navigate = useNavigate();
+    const location = useLocation();
+
+    let from = location.state?.from?.pathname || "/";
 
     const {
         register,
@@ -24,26 +27,27 @@ const Login = () => {
     } = useForm();
 
     const onSubmit = (data) => {
-        console.log(data);
         signInWithEmailAndPassword(data.email, data.password);
         reset();
-        navigate("/appointment");
     };
 
-    if (user || userGoogle) {
-        console.log(user || userGoogle);
-    }
+    useEffect(() => {
+        if (user || gUser) {
+            // console.log(user || gUser);
+            navigate(from, { replace: true });
+        }
+    }, [user, gUser, from, navigate]);
 
     let signInError;
-    if (error || errorGoogle) {
+    if (error || gError) {
         signInError = (
             <p className="mb-4 text-red-400">
-                {error?.message || errorGoogle?.message}
+                {error?.message || gError?.message}
             </p>
         );
     }
 
-    if (loading || loadingGoogle) {
+    if (loading || gLoading) {
         return <Loading />;
     }
 

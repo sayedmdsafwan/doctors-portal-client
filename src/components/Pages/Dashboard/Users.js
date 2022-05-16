@@ -11,7 +11,11 @@ const Users = () => {
         .then((data) => setUsers(data));
     }, []);*/
 
-    const { data: users, isLoading } = useQuery("users", () =>
+    const {
+        data: users,
+        isLoading,
+        refetch,
+    } = useQuery("users", () =>
         fetch("http://localhost:4000/user", {
             method: "GET",
             headers: {
@@ -40,6 +44,7 @@ const Users = () => {
                     <tbody>
                         {users.map((user, index) => (
                             <UserReview
+                                refetch={refetch}
                                 user={user}
                                 index={index}
                                 key={user._id}

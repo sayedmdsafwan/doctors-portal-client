@@ -15,9 +15,9 @@ const AvailableAppointment = ({ date }) => {
         isLoading,
         refetch,
     } = useQuery(["available", formattedDate], () =>
-        fetch(`http://localhost:4000/available?date=${formattedDate}`).then(
-            (res) => res.json()
-        )
+        fetch(
+            `https://calm-thicket-69077.herokuapp.com/available?date=${formattedDate}`
+        ).then((res) => res.json())
     );
 
     if (isLoading) {
@@ -25,7 +25,7 @@ const AvailableAppointment = ({ date }) => {
     }
 
     // useEffect(() => {
-    //     fetch(`http://localhost:4000/available?date=${formattedDate}`)
+    //     fetch(`https://calm-thicket-69077.herokuapp.com/available?date=${formattedDate}`)
     //         .then((res) => res.json())
     //         .then((data) => setServices(data));
     // }, [formattedDate]);

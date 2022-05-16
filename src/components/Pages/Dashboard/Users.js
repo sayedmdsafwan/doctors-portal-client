@@ -6,7 +6,7 @@ import UserReview from "./UserReview";
 const Users = () => {
     /* const [users, setUsers] = useState([]);
     useEffect(() => {
-        fetch("http://localhost:4000/user")
+        fetch("https://calm-thicket-69077.herokuapp.com/user")
         .then((res) => res.json())
         .then((data) => setUsers(data));
     }, []);*/
@@ -16,7 +16,7 @@ const Users = () => {
         isLoading,
         refetch,
     } = useQuery("users", () =>
-        fetch("http://localhost:4000/user", {
+        fetch("https://calm-thicket-69077.herokuapp.com/user", {
             method: "GET",
             headers: {
                 authorization: `Bearer ${localStorage.getItem("accessToken")}`,

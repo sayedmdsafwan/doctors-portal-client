@@ -9,16 +9,20 @@ import Loading from "../Shared/Loading";
 
 const RequireAuth = ({ children }) => {
     const [user, loading] = useAuthState(auth);
-    const [sendEmailVerification, sending, error] =
-        useSendEmailVerification(auth);
+    // const [sendEmailVerification, sending, error] =
+    //     useSendEmailVerification(auth);
 
     const location = useLocation();
+
+    if (loading) {
+        return <Loading />;
+    }
 
     if (!user) {
         return <Navigate to="/login" state={{ from: location }} replace />;
     }
 
-    if (
+    /* if (
         user.providerData[0]?.providerId === "password" &&
         !user.emailVerified
     ) {
@@ -41,7 +45,7 @@ const RequireAuth = ({ children }) => {
                 <p>If verified, just refresh the page to see the content</p>
             </div>
         );
-    }
+    } */
 
     return children;
 };

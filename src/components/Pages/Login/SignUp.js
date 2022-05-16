@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import {
     useCreateUserWithEmailAndPassword,
     useSignInWithGoogle,
@@ -7,6 +7,7 @@ import {
 import { useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
 import auth from "../../../firebase.init";
+import useToken from "../../../Hooks/useToken";
 import Loading from "../Shared/Loading";
 
 const SignUp = () => {
@@ -14,9 +15,9 @@ const SignUp = () => {
         useSignInWithGoogle(auth);
     const [updateProfile, updating, updateError] = useUpdateProfile(auth);
     const [createUserWithEmailAndPassword, user, loading, error] =
-        useCreateUserWithEmailAndPassword(auth, {
-            sendEmailVerification: true,
-        });
+        useCreateUserWithEmailAndPassword(auth);
+
+    const [token] = useToken(user || gUser);
 
     const {
         register,
@@ -43,8 +44,7 @@ const SignUp = () => {
         );
     }
 
-    if (user || gUser) {
-        console.log(user || gUser);
+    if (token) {
         navigate("/appointment");
     }
 

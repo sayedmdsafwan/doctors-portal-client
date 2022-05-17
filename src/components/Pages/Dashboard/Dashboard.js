@@ -48,6 +48,11 @@ const Dashboard = () => {
                                     Add a doctor
                                 </Link>
                             </li>
+                            <li>
+                                <Link to="/dashboard/managedoctor">
+                                    Manage Doctors
+                                </Link>
+                            </li>
                         </>
                     )}
                 </ul>

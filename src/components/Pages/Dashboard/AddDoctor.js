@@ -13,7 +13,9 @@ const AddDoctor = () => {
     } = useForm();
 
     const { data: services, isLoading } = useQuery("services", () =>
-        fetch("http://localhost:4000/service").then((res) => res.json())
+        fetch("https://calm-thicket-69077.herokuapp.com/service").then((res) =>
+            res.json()
+        )
     );
 
     const imageStorageKey = "37944a7ea3f5b094ab958f95bb67f7c5";
@@ -47,7 +49,7 @@ const AddDoctor = () => {
                     };
                     // send to your database
 
-                    fetch("http://localhost:4000/doctor", {
+                    fetch("https://calm-thicket-69077.herokuapp.com/doctor", {
                         method: "POST",
                         headers: {
                             "content-type": "application/json",

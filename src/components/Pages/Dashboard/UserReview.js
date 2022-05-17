@@ -4,6 +4,22 @@ import { toast } from "react-toastify";
 const UserReview = ({ user, index, refetch }) => {
     const { email, role } = user;
 
+    const removeUser = (email) => {
+        fetch(`https://calm-thicket-69077.herokuapp.com/user/${email}`, {
+            method: "DELETE",
+            headers: {
+                authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+            },
+        })
+            .then((res) => res.json())
+            .then((data) => {
+                if (data.deletedCount) {
+                    toast.success("User deleted successfully");
+                    refetch();
+                }
+            });
+    };
+
     const makeAdmin = () => {
         fetch(`https://calm-thicket-69077.herokuapp.com/user/admin/${email}`, {
             method: "PUT",
@@ -37,7 +53,12 @@ const UserReview = ({ user, index, refetch }) => {
                 )}
             </td>
             <td>
-                <button className="btn btn-xs">Remove User</button>
+                <button
+                    className="btn btn-xs btn-error text-white"
+                    onClick={() => removeUser(email)}
+                >
+                    Remove User
+                </button>
             </td>
         </tr>
     );

@@ -1,5 +1,6 @@
 import { CardElement, useElements, useStripe } from "@stripe/react-stripe-js";
 import React, { useEffect, useState } from "react";
+import Loading from "../Shared/Loading";
 
 const CheckoutForm = ({ appointment }) => {
     const stripe = useStripe();
@@ -12,14 +13,19 @@ const CheckoutForm = ({ appointment }) => {
     const [transectionId, setTransectionId] = useState("");
 
     useEffect(() => {
-        fetch("http://localhost:4000/create-payment-intent", {
-            method: "POST",
-            headers: {
-                "content-type": "application/json",
-                authorization: `Bearer ${localStorage.getItem("accessToken")}`,
-            },
-            body: JSON.stringify({ price }),
-        })
+        fetch(
+            "https://calm-thicket-69077.herokuapp.com/create-payment-intent",
+            {
+                method: "POST",
+                headers: {
+                    "content-type": "application/json",
+                    authorization: `Bearer ${localStorage.getItem(
+                        "accessToken"
+                    )}`,
+                },
+                body: JSON.stringify({ price }),
+            }
+        )
             .then((res) => res.json())
             .then((data) => {
                 if (data.clientSecret) {
@@ -77,7 +83,7 @@ const CheckoutForm = ({ appointment }) => {
                 transectionId: paymentIntent.id,
             };
 
-            fetch(`http://localhost:4000/booking/${_id}`, {
+            fetch(`https://calm-thicket-69077.herokuapp.com/booking/${_id}`, {
                 method: "PATCH",
                 headers: {
                     "content-type": "application/json",
@@ -94,6 +100,10 @@ const CheckoutForm = ({ appointment }) => {
                 });
         }
     };
+
+    if (processing) {
+        return <Loading />;
+    }
 
     return (
         <>

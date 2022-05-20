@@ -3,9 +3,10 @@ import React, { useEffect, useState } from "react";
 
 const CheckoutForm = ({ appointment }) => {
     const stripe = useStripe();
-    const { price } = appointment;
+    const { price, patient, patientName } = appointment;
     const elements = useElements();
     const [cardError, setCardError] = useState("");
+    const [success, setSuccess] = useState("");
     const [clientSecret, setClientSecret] = useState("");
 
     useEffect(() => {
@@ -44,6 +45,27 @@ const CheckoutForm = ({ appointment }) => {
         });
 
         setCardError(error ? error.message : "");
+        setSuccess("");
+
+        // confirm card payment
+        const { paymentIntent, error: intentError } =
+            await stripe.confirmCardPayment(clientSecret, {
+                payment_method: {
+                    card: card,
+                    billing_details: {
+                        name: patientName,
+                        email: patient,
+                    },
+                },
+            });
+
+        if (intentError) {
+            setCardError(intentError?.message);
+        } else {
+            setCardError("");
+            console.log(paymentIntent);
+            setSuccess("Your payment is successful");
+        }
     };
 
     return (
@@ -74,6 +96,7 @@ const CheckoutForm = ({ appointment }) => {
                 </button>
             </form>
             {cardError && <p className="text-red-500">{cardError}</p>}
+            {success && <p className="text-green-500">{success}</p>}
         </>
     );
 };

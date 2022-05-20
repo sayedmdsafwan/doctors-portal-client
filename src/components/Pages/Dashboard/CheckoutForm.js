@@ -3,10 +3,11 @@ import React, { useEffect, useState } from "react";
 
 const CheckoutForm = ({ appointment }) => {
     const stripe = useStripe();
-    const { price, patient, patientName } = appointment;
+    const { _id, price, patient, patientName } = appointment;
     const elements = useElements();
     const [cardError, setCardError] = useState("");
     const [success, setSuccess] = useState("");
+    const [processing, setProcessing] = useState(false);
     const [clientSecret, setClientSecret] = useState("");
     const [transectionId, setTransectionId] = useState("");
 
@@ -47,6 +48,7 @@ const CheckoutForm = ({ appointment }) => {
 
         setCardError(error ? error.message : "");
         setSuccess("");
+        setProcessing(true);
 
         // confirm card payment
         const { paymentIntent, error: intentError } =
@@ -62,11 +64,34 @@ const CheckoutForm = ({ appointment }) => {
 
         if (intentError) {
             setCardError(intentError?.message);
+            setProcessing(false);
         } else {
             setCardError("");
             setTransectionId(paymentIntent.id);
             console.log(paymentIntent);
             setSuccess("Your payment is successful");
+
+            // store payment on database
+            const payment = {
+                appointment: _id,
+                transectionId: paymentIntent.id,
+            };
+
+            fetch(`http://localhost:4000/booking/${_id}`, {
+                method: "PATCH",
+                headers: {
+                    "content-type": "application/json",
+                    authorization: `Bearer ${localStorage.getItem(
+                        "accessToken"
+                    )}`,
+                },
+                body: JSON.stringify(payment),
+            })
+                .then((res) => res.json())
+                .then((data) => {
+                    setProcessing(false);
+                    console.log(data);
+                });
         }
     };
 

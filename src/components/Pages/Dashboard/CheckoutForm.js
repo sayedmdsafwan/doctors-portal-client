@@ -8,6 +8,7 @@ const CheckoutForm = ({ appointment }) => {
     const [cardError, setCardError] = useState("");
     const [success, setSuccess] = useState("");
     const [clientSecret, setClientSecret] = useState("");
+    const [transectionId, setTransectionId] = useState("");
 
     useEffect(() => {
         fetch("http://localhost:4000/create-payment-intent", {
@@ -63,6 +64,7 @@ const CheckoutForm = ({ appointment }) => {
             setCardError(intentError?.message);
         } else {
             setCardError("");
+            setTransectionId(paymentIntent.id);
             console.log(paymentIntent);
             setSuccess("Your payment is successful");
         }
@@ -96,7 +98,16 @@ const CheckoutForm = ({ appointment }) => {
                 </button>
             </form>
             {cardError && <p className="text-red-500">{cardError}</p>}
-            {success && <p className="text-green-500">{success}</p>}
+            {success && (
+                <div>
+                    {" "}
+                    <p className="text-green-500">{success}</p>
+                    <p>
+                        Your transection ID is{" "}
+                        <span className="text-orange-500">{transectionId}</span>
+                    </p>
+                </div>
+            )}
         </>
     );
 };
